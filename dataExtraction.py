@@ -97,7 +97,6 @@ for k,v in tmp.iteritems():
 	tmp_df['Building_Class']=df['Building_Class'][k]
 	tmp_df['Year_Built']=df['Year_Built'][k]
 	tmp_df['Total_Space_Available']=df['Total_Space_Available'][k]
-
 	space_info_list.append(tmp_df)
 
 #concatenate to a single large data frame
@@ -232,3 +231,14 @@ spaces_df['zipcode'].value_counts()
 # Lennox                  1
 # West Adams              1
 # Length: 176, dtype: int64
+
+rents_df=spaces_df.dropna(subset=['Rental_Rate'],inplace=False)
+#make a smaller set of features
+dropCols=[u'Clear_Ceiling_Height', u'Date_Available',
+       u'Lease_Term', u'Lot_Size', u'Lot_Type',
+       u'Max_Contiguous', u'Min_Divisible', u'NNN_Expenses',
+       u'No_Parking_Spaces', u'Sublease', u'space-label']
+
+#write this to csv
+rents_df.drop(labels=dropCols,axis=1,inplace=True)
+rents_df.to_csv('loopnet_rents.csv',encoding='utf-8')
